@@ -1,5 +1,6 @@
 class User
-  include Mongoid::Document
+  include 
+goid::Document
   include Mongoid::Timestamps
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -31,6 +32,9 @@ class User
   field :name, type: String, default: ""
   field :role, type: String, default: "Developer"
 
+  has_many :todos
+  has_and_belongs_to_many :projects
+
   def self.available_roles
     return ["Manager", "Developer"]
   end
@@ -38,4 +42,5 @@ class User
   def role?(role_param)
     return self.role == role_param
   end
+
 end
