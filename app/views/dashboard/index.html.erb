@@ -1,0 +1,10 @@
+<html>
+<% if(current_user.role?("Developer") ) %>
+	<%= render "developer" %>
+<% end %>
+
+<% if(current_user.role?("Manager") ) %>
+	<%= render 'manager' %>
+<% end %>
+
+</html>

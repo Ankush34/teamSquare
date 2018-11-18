@@ -34,4 +34,8 @@ class User
   def self.available_roles
     return ["Manager", "Developer"]
   end
+
+  def role?(role_param)
+    return self.role == role_param
+  end
 end
