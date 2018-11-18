@@ -30,7 +30,10 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+# this gem is responsible for our models in mongodb
 gem 'mongoid', '~> 6.0'
+# this gem is responsible for setting up authentication
+gem 'devise'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
