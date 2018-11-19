@@ -9,6 +9,8 @@ class Project
   has_and_belongs_to_many :developers, class_name: 'User'
   has_many :todos
 
+  validates :name, :creator_id, presence: true
+  
   def manager
     User.find(self.creator_id)
   end

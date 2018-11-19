@@ -15,7 +15,8 @@ class TodosController < ApplicationController
     @todo = Todo.new
     @todo.send(STATES_MAP_DATA_CONF[todo_params[:status]]) if(todo_params[:status].present?)
     respond_to do |format| 
-      if(@todo.errors.empty? && @todo.assign_attributes(permitted_attributes(@todo)) && @project.todos << @todo) 
+      if(@todo.errors.empty? && @todo.assign_attributes(permitted_attributes(@todo)) && @project.todos << @todo && @todo.save) 
+        flash[:notice] = "todo was successfully created."
         format.html {redirect_to dashboard_index_path}
       else
         format.html { render :new }
@@ -30,7 +31,6 @@ class TodosController < ApplicationController
         flash[:notice] = "todo was successfully updated. "
         format.html { redirect_to dashboard_index_path }
       else
-        flash[:notice] = "todo could not be updated."
         format.html { render :edit }   
       end
     end

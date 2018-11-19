@@ -1,25 +1,23 @@
 class ProjectsController < ApplicationController
   before_action :set_project ,except: [:index, :new, :create]
   before_action :authorize_resource
+  before_action :set_developers 
 
   def new
     @project = Project.new
-    @developers = User.where(role: "Developer")
   end
 
   def edit
-    @developers = User.where(role: "Developer")
   end
 
   def create
-    project = Project.new
-    project.assign_attributes(project_params)
+    @project = Project.new
+    @project.assign_attributes(project_params)
     respond_to do |format|
-      if(project.save)
+      if(@project.save)
         flash[:notice] = "project was successfully created. "
         format.html { redirect_to dashboard_index_path }
       else
-        flash[:notice] = "error occured please check"
         format.html { render :new }    
       end
     end
@@ -43,6 +41,10 @@ class ProjectsController < ApplicationController
 
   def set_project
     @project = Project.find(params[:id])
+  end
+
+  def set_developers
+    @developers = User.where(role: "Developer")
   end
 
   def project_params

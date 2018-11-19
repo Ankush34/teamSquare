@@ -1,4 +1,5 @@
-<%= form_for :project, url: params[:action] == "new" ? projects_path : project_path, method: params[:action] == "new"? "POST" : "PATCH" do |f| %>
+<%= render "/shared/record_save_notifications", record: @project %>
+<%= form_for :project, url: (params[:action] == "new" || params[:action] == "create")? projects_path : project_path, method: params[:action] == "new" || params[:action] == "create" ? "POST" : "PATCH" do |f| %>
   <div class="form-group" style="margin-top: 10px; margin-bottom: 10px">
     <%= f.label :name %><br />
     <%= f.text_field :name, autofocus: true, autocomplete: "name" %>

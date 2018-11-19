@@ -34,6 +34,10 @@ class User
   has_many :todos
   has_and_belongs_to_many :projects
   
+  validates :name, :role, :email, presence: true
+  validates :email, uniqueness: true
+  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+
   def self.available_roles
     ["Manager", "Developer"]
   end
