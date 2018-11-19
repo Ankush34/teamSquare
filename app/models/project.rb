@@ -12,4 +12,12 @@ class Project
   def manager
     User.find(self.creator_id)
   end
+
+  def get_todo_details_for_map
+    data = {}
+    self.todos.each do |todo|
+      data[todo.status.humanize] = data[todo.status.humanize].nil? ? 1 : (data[todo.status.humanize] + 1)
+    end
+    data
+  end
 end

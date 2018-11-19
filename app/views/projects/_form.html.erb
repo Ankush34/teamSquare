@@ -1,4 +1,4 @@
-<%= form_for :project, url: project_path, method: "PATCH" do |f| %>
+<%= form_for :project, url: params[:action] == "new" ? projects_path : project_path, method: params[:action] == "new"? "POST" : "PATCH" do |f| %>
   <div class="form-group" style="margin-top: 10px; margin-bottom: 10px">
     <%= f.label :name %><br />
     <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
@@ -6,9 +6,13 @@
 
  	<div class="form-group", style="margin-top: 10px; margin-bottom: 10px">
     <%= f.label :developer_ids, "Developers : " %>
-    <%= f.select :developer_ids,options_for_select( @developers.map{|dev| [dev.name, dev._id]}, @project.developers.pluck(:id) ),{}, { multiple: true, class: 'selectize', style: 'width: 40%'}   %>
+    <%= f.select :developer_ids,options_for_select( @developers.map{|dev| [dev.name, dev._id]}, 
+    @project.developers.pluck(:id)),{}, { multiple: true, class: 'selectize', style: 'width: 40%'}   %>
   </div>
-   <div class="actions" style="margin-top: 10px; margin-bottom: 10px;">
+  
+  <%= f.hidden_field :creator_id, value: current_user._id %>
+
+  <div class="actions" style="margin-top: 10px; margin-bottom: 10px;">
     <%= f.submit params[:action] == "new" ? "Create" : "Edit" %>
   </div>
 <% end %>

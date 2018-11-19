@@ -36,6 +36,10 @@ gem 'mongoid', '~> 6.0'
 gem 'devise'
 # this gem is responsible for getting the jquery js in the project
 gem 'jquery-rails'
+# this gem is responsible for handling the authorization of the application
+gem "pundit"
+# this gem is responsible for handling state transfer of task
+gem 'aasm'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

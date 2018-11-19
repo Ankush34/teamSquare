@@ -1,9 +1,10 @@
 class ProjectsController < ApplicationController
-  before_action :set_project ,except: [:index, :new]
-  def index
-  end
+  before_action :set_project ,except: [:index, :new, :create]
+  before_action :authorize_resource
 
   def new
+    @project = Project.new
+    @developers = User.where(role: "Developer")
   end
 
   def edit
@@ -11,6 +12,17 @@ class ProjectsController < ApplicationController
   end
 
   def create
+    project = Project.new
+    project.assign_attributes(project_params)
+    respond_to do |format|
+      if(project.save)
+        flash[:notice] = "project was successfully created. "
+        format.html { redirect_to dashboard_index_path }
+      else
+        flash[:notice] = "error occured please check"
+        format.html { render :new }    
+      end
+    end
   end
 
   def update
@@ -34,6 +46,16 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:name, :developer_ids => [])
+    params.require(:project).permit(:name, :creator_id, :developer_ids => [])
   end
+
+  def authorize_resource
+    if params[:action] == "index"
+    elsif params[:action] == "new" || params[:action] == "create"
+      authorize Project.new
+    else
+      authorize @project
+    end
+  end
+
 end

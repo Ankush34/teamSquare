@@ -1,0 +1,52 @@
+<% if (record.present? && record.errors.any?) || flash[:error].present? %>
+  <div id="error_explanation">
+    <%
+      errors_hash = record.errors.to_hash
+      errors = []
+      errors_hash.each do |k, v|
+
+        labels = t("mongoid.attributes.#{record.class.model_name.i18n_key}")
+        if labels.present? && labels.is_a?(Hash) && labels[k].present?
+          key_name = labels[k]
+        else
+          key_name = k.to_s.titleize
+        end
+
+        as = record.reflect_on_association(k)
+        if as.present? && as[:relation].present?
+          nested_errors = []
+          if [Mongoid::Relations::Embedded::Many, Mongoid::Relations::Referenced::Many, Mongoid::Relations::Many].include?(as[:relation])
+            nested_errors << record.send(k).collect{|x| messages = x.errors.full_messages; "#{key_name} - #{messages.to_sentence}" if messages.present?}
+          end
+          if [Mongoid::Relations::Embedded::One, Mongoid::Relations::Referenced::One, Mongoid::Relations::One].include?(as[:relation])
+            key = k.to_s
+            messages = record.send(k).errors.full_messages.compact
+            nested_errors << "#{(key == "base" ? "" : key_name)} - #{messages.to_sentence}"
+          end
+          nested_errors.flatten!
+          nested_errors.compact!
+          if nested_errors.blank?
+            errors += v.collect{ |msg| ((k.to_s == "base" ? "" : key_name) + " " + msg)}
+          else
+            errors += nested_errors
+          end
+        else
+          errors += v.collect{ |msg| ((k.to_s == "base" ? "" : key_name) + " " + msg)}
+        end
+      end
+      errors.flatten!
+      if flash[:error].present?
+        errors += flash[:error]
+      end
+    %>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Following errors were found while saving</strong>
+      <ul>
+      <% errors.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>

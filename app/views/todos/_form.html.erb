@@ -1,21 +1,33 @@
+<%= render "/shared/record_save_notifications", record: @todo %>
+<% editable_fields = policy(@todo).editable_fields %>
 <%= form_for [@project, @todo] do |f| %>
-  <div class="field" style="margin-top: 10px; margin-bottom: 10px">
-    <%= f.label :task_name %><br />
-    <%= f.text_field :task_name, autofocus: true, autocomplete: "task_name" %>
-  </div>
+    <div class="field" style="margin-top: 10px; margin-bottom: 10px">
+      <%= f.label :task_name %><br />
+      <%= f.text_field :task_name, autofocus: true, autocomplete: "task_name" , disabled: (editable_fields.include?("task_name") ? false : true) %>
+    </div>
 
  	<div class="field", style="margin-top: 10px; margin-bottom: 10px">
     <%= f.label :status %>
-    <%= f.select :status, options_for_select(Todo.available_statuses, @todo.status) %>
+    <% available_statuses = Todo.available_statuses %>
+    <% if current_user.role?("Developer") %>
+      <% available_statuses -= ["not_assigned", "assigned"] %>
+    <% end %>
+    <%= f.select :status, options_for_select(available_statuses.map{|status| [status.humanize, status] }, [@todo.status.humanize, @todo.status]), {}, {disabled: (editable_fields.include?("status") ? false : true), class: 'selectize', style: "width: 40%"}%>
   </div>
 
   <div class="field", style="margin-top: 10px; margin-bottom: 10px">
     <%= f.label :developer_id, "Developer" %>
     <%= f.select :developer_id, options_for_select(@project.developers.present? ? @project.developers.map{ |u| [u.name, u._id] } : [], 
-    @project.developers.present? ? @project.developers.first._id : "") %>
+    @project.developers.present? ? @project.developers.first._id : ""),{},{class: "selectize", disabled: (editable_fields.include?("developer_id") ? false : true), style: "width: 40%"}%>
   </div>
 
    <div class="actions" style="margin-top: 10px; margin-bottom: 10px">
     <%= f.submit params[:action] == "new" ? "Create" : "Edit" %>
   </div>
+<% end %>
+
+<%= javascript_tag do %>
+    $(document).ready(function(){
+      $(".selectize").selectize();
+    });
 <% end %>
