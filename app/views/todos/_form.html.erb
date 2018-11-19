@@ -1,0 +1,21 @@
+<%= form_for [@project, @todo] do |f| %>
+  <div class="field" style="margin-top: 10px; margin-bottom: 10px">
+    <%= f.label :task_name %><br />
+    <%= f.text_field :task_name, autofocus: true, autocomplete: "task_name" %>
+  </div>
+
+ 	<div class="field", style="margin-top: 10px; margin-bottom: 10px">
+    <%= f.label :status %>
+    <%= f.select :status, options_for_select(Todo.available_statuses, @todo.status) %>
+  </div>
+
+  <div class="field", style="margin-top: 10px; margin-bottom: 10px">
+    <%= f.label :developer_id, "Developer" %>
+    <%= f.select :developer_id, options_for_select(@project.developers.present? ? @project.developers.map{ |u| [u.name, u._id] } : [], 
+    @project.developers.present? ? @project.developers.first._id : "") %>
+  </div>
+
+   <div class="actions" style="margin-top: 10px; margin-bottom: 10px">
+    <%= f.submit params[:action] == "new" ? "Create" : "Edit" %>
+  </div>
+<% end %>

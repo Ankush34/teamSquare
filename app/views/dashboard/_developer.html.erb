@@ -1,3 +1,27 @@
-<HTML>
-<p>i am in developer</p>
-</HTML>
+<% projects.each do |project| %>
+ 	<% if project.todos.where(developer_id: current_user._id).count > 0 %>
+	 	<fieldset style="margin-top: 20px">
+			<legend><%= "#{project.name} Todos " %></legend>
+			<TABLE style="width: 100%">
+				<THEAD></THEAD>
+					<TR>
+						<TD>Todo Name </TD>
+						<TD>Todo Status</TD>
+						<TD>change Status</TD>
+					</TR>
+				</THEAD>
+				<TBODY>
+					<% project.todos.each do |todo| %>
+						<TR>
+							<TD><%= todo.task_name  %></TD>
+							<TD><%= todo.status %></TD>
+							<TD><%= link_to('Edit', edit_project_todo_path(project, todo), method: :get) %></TD>
+						</TR>
+					<% end %>
+				</TBODY>
+			</TABLE>
+		</fieldset>
+	<% end %>
+</br>
+<% end %>
+<p>i am in developer </p>

@@ -34,6 +34,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'mongoid', '~> 6.0'
 # this gem is responsible for setting up authentication
 gem 'devise'
+# this gem is responsible for getting the jquery js in the project
+gem 'jquery-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

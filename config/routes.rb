@@ -9,6 +9,14 @@ Rails.application.routes.draw do
 	  end
 	end
 
+  # keeping dashboard resource only to index since there is no other action that we need on dashboard
 	resources :dashboard, only: [:index]
+
+  # creating resources for todos
+  resources :projects do
+    resources :todos, only: [:new, :create, :edit, :update, :destroy]
+  end
+
+  # creating todos for projects 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

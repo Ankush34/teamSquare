@@ -9,6 +9,9 @@
   </head>
 
   <body>
+    <% if flash[:notice].present? %>
+      <%= flash[:notice] %> 
+    <% end %>
   	<% if user_signed_in? %>
 		  <li>
 		  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>        

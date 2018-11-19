@@ -1,10 +1,10 @@
 <html>
 <% if(current_user.role?("Developer") ) %>
-	<%= render "developer" %>
+	<%= render "developer", projects: @projects, todos: @todos %>
 <% end %>
 
 <% if(current_user.role?("Manager") ) %>
-	<%= render 'manager' %>
+	<%= render 'manager' , projects: @projects , todos: @todos %>
 <% end %>
 
 </html>
