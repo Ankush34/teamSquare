@@ -29,11 +29,9 @@ class ProjectsController < ApplicationController
         flash[:notice] = "project was successfully updated."
         format.html { redirect_to dashboard_index_path }
       else
-        flash[:error] = "Couldn't update project."
         format.html { render :edit }
       end
     end
-    binding.pry
   end
 
   def destroy
