@@ -40,6 +40,7 @@ gem 'jquery-rails'
 gem "pundit"
 # this gem is responsible for handling state transfer of task
 gem 'aasm'
+# gem for creating rspecs
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -49,6 +50,20 @@ group :development, :test do
   gem 'selenium-webdriver'
   # used for debugging in rails 
   gem 'pry-rails'
+  # this spec is responsible for writing test
+  gem 'mongoid-rspec'
+
+  gem 'factory_bot_rails'
+  
+  gem 'database_cleaner'
+
+  gem 'rspec-rails'
+
+  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+
+  # test formatter for rspec
+  gem 'fuubar'  
+
 end
 
 group :development do
