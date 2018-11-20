@@ -9,18 +9,15 @@
   </head>
 
   <body>
-    <% if flash[:notice].present? %>
-      <%= flash[:notice] %> 
+    <div>
+      <% if flash[:notice].present? %>
+        <p class="alert alert-primary"><%= flash[:notice].capitalize %></p> 
+      <% end %>
+    </div>
+    <% if user_signed_in? %>
+		  <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: "btn btn-info button-align" %>
     <% end %>
-  	<% if user_signed_in? %>
-		  <li>
-		  <%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
-		  </li>
-		<% else %>
-		  <li>
-		  <%= link_to('Login', new_user_session_path)  %>  
-		  </li>
-		<% end %>
+    <div>
     <%= yield %>
   </body>
 </html>

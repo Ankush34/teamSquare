@@ -1,31 +1,64 @@
 <%= render "/shared/record_save_notifications", record: @todo %>
 <% editable_fields = policy(@todo).editable_fields %>
-<%= form_for [@project, @todo] do |f| %>
-    <div class="field" style="margin-top: 10px; margin-bottom: 10px">
-      <%= f.label :task_name %><br />
-      <%= f.text_field :task_name, autofocus: true, autocomplete: "task_name" , disabled: (editable_fields.include?("task_name") ? false : true) %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card" style="margin: 40px">
+      <div class="card-header">
+        <div class="card-title">
+          <%= (params[:action]=="new" || params[:action] == 'create') ? "Create" : "Update" %> Todo
+        </div>  
+      </div>
+      <div class="card-body">
+        <div class="container" style="float: left;">
+          <%= form_for [@project, @todo] do |f| %>
+            <div class="field" style="margin-top: 10px; margin-bottom: 10px">
+              <div class="row">
+                <div class="col-md-4">
+                  <%= f.label :task_name %><br />
+                  <%= f.text_field :task_name, autofocus: true, autocomplete: "task_name" , disabled: (editable_fields.include?("task_name") ? false : true),class: 'form-control'%>  
+                </div>
+              </div>
+            </div>
+
+            <div class="field", style="margin-top: 10px; margin-bottom: 10px">
+              <div class="row">
+                <div class="col-md-4">
+                  <%= f.label :status %>
+                  <% available_statuses = Todo.available_statuses %>
+                  <% if current_user.role?("Developer") %>
+                    <% available_statuses -= ["not_assigned", "assigned"] %>
+                  <% end %>
+                  <%= f.select :status, options_for_select(available_statuses.map{|status| [status.humanize, status] }, [@todo.status.humanize, @todo.status]), {}, {disabled: (editable_fields.include?("status") ? false : true), class: 'selectize'}%>
+                </div>
+              </div>
+            </div>
+
+            <div class="field", style="margin-top: 10px; margin-bottom: 10px">
+              <div class="row">
+                <div class="col-md-4">
+                  <%= f.label :developer_id, "Developer" %>
+                  <%= f.select :developer_id, options_for_select(@project.developers.present? ? @project.developers.map{ |u| [u.name, u._id] } : [], 
+                  @project.developers.present? ? @project.developers.first._id : ""),{},{class: "selectize", disabled: (editable_fields.include?("developer_id") ? false : true)}%>
+                </div>
+              </div>
+            </div>
+
+            <div class="actions" style="margin-top: 10px; margin-bottom: 10px">
+              <div class="row">
+                <div class="col-md-4">
+                  <%= f.submit params[:action] == "new" ? "Create" : "Edit", class: 'btn btn-primary'%>      
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-footer">
+      </div>
     </div>
-
- 	<div class="field", style="margin-top: 10px; margin-bottom: 10px">
-    <%= f.label :status %>
-    <% available_statuses = Todo.available_statuses %>
-    <% if current_user.role?("Developer") %>
-      <% available_statuses -= ["not_assigned", "assigned"] %>
-    <% end %>
-    <%= f.select :status, options_for_select(available_statuses.map{|status| [status.humanize, status] }, [@todo.status.humanize, @todo.status]), {}, {disabled: (editable_fields.include?("status") ? false : true), class: 'selectize', style: "width: 40%"}%>
   </div>
-
-  <div class="field", style="margin-top: 10px; margin-bottom: 10px">
-    <%= f.label :developer_id, "Developer" %>
-    <%= f.select :developer_id, options_for_select(@project.developers.present? ? @project.developers.map{ |u| [u.name, u._id] } : [], 
-    @project.developers.present? ? @project.developers.first._id : ""),{},{class: "selectize", disabled: (editable_fields.include?("developer_id") ? false : true), style: "width: 40%"}%>
-  </div>
-
-   <div class="actions" style="margin-top: 10px; margin-bottom: 10px">
-    <%= f.submit params[:action] == "new" ? "Create" : "Edit" %>
-  </div>
-<% end %>
-
+</div>
 <%= javascript_tag do %>
     $(document).ready(function(){
       $(".selectize").selectize();

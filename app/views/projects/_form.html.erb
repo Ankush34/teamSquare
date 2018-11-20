@@ -1,22 +1,51 @@
 <%= render "/shared/record_save_notifications", record: @project %>
-<%= form_for :project, url: (params[:action] == "new" || params[:action] == "create")? projects_path : project_path, method: params[:action] == "new" || params[:action] == "create" ? "POST" : "PATCH" do |f| %>
-  <div class="form-group" style="margin-top: 10px; margin-bottom: 10px">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
-  </div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card" style="margin: 40px">
+      <div class="card-header">
+        <div class="card-title">
+          <%= (params[:action] == "new" || params[:action] == "create" ) ? "New" : "Update" %> Project
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="container" style="float: left">
+          <%= form_for :project, url: (params[:action] == "new" || params[:action] == "create")? projects_path : project_path, method: params[:action] == "new" || params[:action] == "create" ? "POST" : "PATCH" do 
+            |f| %>
+            <div class="form-group" style="margin-top: 10px; margin-bottom: 10px">
+              <div class="row">
+                <div class="col-md-4">
+                  <%= f.label :name %><br />
+                  <%= f.text_field :name, autofocus: true, autocomplete: "name", class: 'form-control'%>
+                </div>
+              </div>
+            </div>
 
- 	<div class="form-group", style="margin-top: 10px; margin-bottom: 10px">
-    <%= f.label :developer_ids, "Developers : " %>
-    <%= f.select :developer_ids,options_for_select( @developers.map{|dev| [dev.name, dev._id]}, 
-    @project.developers.pluck(:id)),{}, { multiple: true, class: 'selectize', style: 'width: 40%'}   %>
-  </div>
-  
-  <%= f.hidden_field :creator_id, value: current_user._id %>
+            <div class="form-group", style="margin-top: 10px; margin-bottom: 10px">
+              <div class="row">
+                <div class="col-md-4">
+                  <%= f.label :developer_ids, "Developers : " %>
+                  <%= f.select :developer_ids,options_for_select( @developers.map{|dev| [dev.name, dev._id]}, 
+                  @project.developers.pluck(:id)),{}, { multiple: true, class: 'selectize'}   %>
+                </div>
+              </div>
+            </div>
 
-  <div class="actions" style="margin-top: 10px; margin-bottom: 10px;">
-    <%= f.submit params[:action] == "new" ? "Create" : "Edit" %>
+            <div class="actions" style="margin-top: 10px; margin-bottom: 10px;">
+              <div class="row">
+                <div class="col-md-4">
+                  <%= f.submit ( params[:action] == "new" || params[:action] == "create") ? "Create" : "Edit", class: 'btn btn-primary' %>
+                </div>
+              </div>
+            </div>
+            <%= f.hidden_field :creator_id, value: current_user._id %>
+          <% end %>
+        </div>
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
   </div>
-<% end %>
+</div>
 
 <%= javascript_tag do %>
     $(document).ready(function(){

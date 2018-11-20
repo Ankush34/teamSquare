@@ -13,6 +13,7 @@
 //= require rails-ujs
 //= require jquery3
 //= require selectize
+//= require bootstrap
 //= require reports/ga_report_chart
 //= require turbolinks
 //= require_tree .

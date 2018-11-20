@@ -41,6 +41,7 @@ gem "pundit"
 # this gem is responsible for handling state transfer of task
 gem 'aasm'
 # gem for creating rspecs
+gem 'bootstrap'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -3,6 +3,9 @@ class ProjectsController < ApplicationController
   before_action :authorize_resource
   before_action :set_developers 
 
+  def index
+  end
+  
   def new
     @project = Project.new
   end

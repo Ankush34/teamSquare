@@ -1,42 +1,45 @@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<%= link_to 'Add new project', new_project_path, method: :get, class: 'btn btn-info button-align' %>
 <br/>
-<!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
-<li><%= link_to('Add new project', new_project_path, method: :get) %></li>
+<br/>
 <% projects.each do |project| %>
- 	<fieldset style="margin-top: 20px">
-		<legend><%= "#{project.name} Todos " %></legend>
-		<% if(project.todos.count > 0) %>
-		<TABLE style="width: 100%">
-			<THEAD></THEAD>
-				<TR>
-					<TD>Todo Name </TD>
-					<TD>Todo Assigned To</TD>
-					<TD>Todo Status</TD>
-					<TD>Edit Todo</TD>
-					<TD>Delete Todo</TD>
-				</TR>
-			</THEAD>
-			<TBODY>
-				<% project.todos.each do |todo| %>
-					<TR>
-						<TD><%= todo.task_name  %></TD>
-						<TD><p style="font-size: 10"><%= todo.developer.nil? ? "-Not-Assigned-" : todo.developer.name %><p></TD>
-						<TD><%= todo.status.humanize %></TD>
-						<TD><%= link_to('Edit', edit_project_todo_path(project, todo), method: :get) %></TD>
-						<TD><%= link_to('Delete', project_todo_path(project, todo), method: :delete) %></TD>
-					</TR>
-				<% end %>
-			</TBODY>
-		</TABLE>
-		<% else %>
-			<h4 style="float: center; margin-top: 20px; margin-bottom: 20px; font-style: normal;"> No tasks for this project</h4>
-		<% end %>
+ 	<div class = "container">
+		<fieldset class="border p-2">
+		<legend class="w-auto text-primary"><%= "#{project.name} Todos " %></legend>
+			<% if(project.todos.count > 0) %>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<td>Todo Name </td>
+						<td>Todo Assigned To</td>
+						<td>Todo Status</td>
+						<td>Edit Todo</td>
+						<td>Delete Todo</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% project.todos.each do |todo| %>
+						<tr>
+							<td><%= todo.task_name  %></td>
+							<td><%= todo.developer.nil? ? "-Not-Assigned-" : todo.developer.name %></td>
+							<td><%= todo.status.humanize %></td>
+							<td><%= link_to 'Edit', edit_project_todo_path(project, todo), method: :get , class: 'btn btn-primary btn-sm' %></td>
+							<td><%= link_to 'Delete', project_todo_path(project, todo), method: :delete, class: 'btn btn-danger btn-sm' %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+			<% else %>
+				<h4 style="float: center; margin-top: 20px; margin-bottom: 20px; font-style: normal;"> No tasks for this project</h4>
+			<% end %>
 		<%= link_to('Add new Todo', new_project_todo_path(project), method: :get) %>
 		<br/>
 		<br/>
 		<%= link_to('Add new Developer', edit_project_path(project), method: :get) %>
 		<div data-chart= {} style="margin-top: 40px; float: center" id= '<%= project.name %>_chart_div' class="my_chart">
 		</div>
-	</fieldset>
+		</fieldset>
+	</div>
 </br>
 <% end %>
 <%= javascript_tag do %>
