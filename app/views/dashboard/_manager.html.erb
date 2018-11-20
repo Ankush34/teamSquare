@@ -30,13 +30,20 @@
 				</tbody>
 			</table>
 			<% else %>
-				<h4 style="float: center; margin-top: 20px; margin-bottom: 20px; font-style: normal;"> No tasks for this project</h4>
+				<h6 style="float: center; margin-top: 20px; margin-bottom: 20px;"> -- Nothing to show --</h5>
 			<% end %>
-		<%= link_to('Add new Todo', new_project_todo_path(project), method: :get) %>
-		<br/>
-		<br/>
-		<%= link_to('Add new Developer', edit_project_path(project), method: :get) %>
 		<div data-chart= {} style="margin-top: 40px; float: center" id= '<%= project.name %>_chart_div' class="my_chart">
+		</div>
+		<div class = "row">
+			<div class="col-md-4">
+				<%= link_to('Add new Todo', new_project_todo_path(project), method: :get) %>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-md-4">
+				<%= link_to('Add new Developer', edit_project_path(project), method: :get) %>			
+			</div>
 		</div>
 		</fieldset>
 	</div>

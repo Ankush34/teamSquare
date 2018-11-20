@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
     if(current_user.role?("Manager"))
       @projects = Project.where(creator_id: current_user.id)
     else
-      @projects = Project.all
+      @projects = current_user.projects
     end
    	render :index
 	end
