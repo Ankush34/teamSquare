@@ -7,8 +7,11 @@ The developers can update the task to in progress and done state only
 
 ## Getting Started
 
-First install all the gems by running :bundle install command
-Good to go , gems are all that required now we can run :rails s command to start the server
+* First install all the gems by running :bundle install command
+  Good to go , gems are all that required now we can run :rails s command to start the server
+
+* For Signup functionality need mail-catcher in development environment to get the mails
+  and provide confirmation
 
 ### Prerequisites
 
